@@ -1,8 +1,8 @@
 <?php
 	define("db_host", "localhost");
-	define("db_user", "root");
-	define("db_pass", "");
-	define("db_name", "cmdl");
+	define("db_user", "logi_cmdl");
+	define("db_pass", "logi_cmdl");
+	define("db_name", "logi_cmdl");
 	
 	
 	class db_connect{
