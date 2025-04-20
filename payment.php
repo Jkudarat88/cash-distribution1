@@ -537,6 +537,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div class='modal-footer' >
                                         <div style='margin-right:400px;' class='row'>
                                         <p>STATUS:</p>&nbsp;<strong style='color: ";
@@ -696,6 +697,15 @@
                                                 
                                                 }
 
+                                                $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
+
                                         $mail = new PHPMailer(true);
 
 
@@ -709,13 +719,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -742,6 +762,14 @@
                                                     $email = $row['email'];
                                                 
                                                 }
+                                                $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
 
                                         $mail = new PHPMailer(true);
 
@@ -756,13 +784,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p2date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -790,6 +828,15 @@
                                                 
                                                 }
 
+                                                $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
+
                                         $mail = new PHPMailer(true);
 
 
@@ -803,13 +850,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p3date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -836,6 +893,15 @@
                                                 
                                                 }
 
+                                                $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
+
                                         $mail = new PHPMailer(true);
 
 
@@ -849,13 +915,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p4date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -883,6 +959,15 @@
                                                 
                                                 }
 
+                                                $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
+
                                         $mail = new PHPMailer(true);
 
 
@@ -896,13 +981,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p5date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -929,6 +1024,14 @@
                                                     $email = $row['email'];
                                                 
                                                 }
+                                                    $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
 
                                         $mail = new PHPMailer(true);
 
@@ -943,13 +1046,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p6date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -976,6 +1089,14 @@
                                                     $email = $row['email'];
                                                 
                                                 }
+                                                    $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
 
                                         $mail = new PHPMailer(true);
 
@@ -990,13 +1111,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p7date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -1023,6 +1154,14 @@
                                                     $email = $row['email'];
                                                 
                                                 }
+                                                    $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
 
                                         $mail = new PHPMailer(true);
 
@@ -1037,13 +1176,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p8date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -1071,6 +1220,15 @@
                                                 
                                                 }
 
+                                                    $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
+
                                         $mail = new PHPMailer(true);
 
 
@@ -1084,13 +1242,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p9date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -1117,6 +1285,14 @@
                                                     $email = $row['email'];
                                                 
                                                 }
+                                                    $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
 
                                         $mail = new PHPMailer(true);
 
@@ -1131,13 +1307,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p10date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -1165,6 +1351,15 @@
                                                 
                                                 }
 
+                                                    $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
+
                                         $mail = new PHPMailer(true);
 
 
@@ -1178,13 +1373,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p11date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 
@@ -1212,6 +1417,15 @@
                                                 
                                                 }
 
+                                                   $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
+
                                         $mail = new PHPMailer(true);
 
 
@@ -1225,13 +1439,23 @@
 
 
                                         $mail->setFrom('cashmdl2025@gmail.com');
+
+                                        if($email1 == null && $email2 == null){
                                         $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+
 
                                         $mail->isHTML(true);
 
                                         $mail->Subject = 'CMDL - SCHEDULED PAYMENT NOTICE';
 
-                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p12date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>';
+                                        $mail->Body = 'This is to inform you that your loan with reference <strong>'. $refno .'</strong> has a scheduled payment amounting <strong>₱'.$monthly .'</strong> on <strong>'.$p1date.'</strong>. Please pay accordingly on your due date to avoid penalty. You can log-in to your CMDL account for processing a payment. Thank you.<br>
+                                        <br>
+                                        If you are receiving this as a co-borrower, please remind your major loan user.';
 
                                         $mail->send();
 

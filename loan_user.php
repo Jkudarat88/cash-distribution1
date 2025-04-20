@@ -520,6 +520,44 @@
 								<label>Purpose</label>
 								<textarea name="purpose" class="form-control" style="resize:none; height:200px;" required="required"></textarea>
 							</div>
+
+
+							<div class="form-group col-xl-12">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="groupLoanCheckbox">
+									<label class="form-check-label" for="groupLoanCheckbox">
+										Group Loan
+									</label>
+								</div>
+							</div>
+
+							<!-- Co-Borrowers Section (Initially Hidden) -->
+							<div id="coBorrowersSection" style="display: none;">
+							<input type="hidden" id="isGroupLoan" name="is_group_loan" value="0">
+
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label>2. Co-Borrower Name</label>
+										<input type="text" name="co_borrower2_name" class="form-control">
+									</div>
+									<div class="form-group col-md-6">
+										<label>2. Co-Borrower Email</label>
+										<input type="email" name="co_borrower2_email" class="form-control">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label>3. Co-Borrower Name</label>
+										<input type="text" name="co_borrower3_name" class="form-control">
+									</div>
+									<div class="form-group col-md-6">
+										<label>3. Co-Borrower Email</label>
+										<input type="email" name="co_borrower3_email" class="form-control">
+									</div>
+								</div>
+							</div>
+							<!-- co borrowers section end -->
+
 							<div class="form-group col-xl-6 col-md-6">
 								<button type="button" class="btn btn-primary btn-block" id="calculate">Calculate Amount</button>
 							</div>
@@ -572,9 +610,17 @@
 									$conn = mysqli_connect('localhost','root','');
                                     $db = mysqli_select_db($conn, 'cmdl');
 
+                                    use  PHPMailer\PHPMailer\PHPMailer;
+									use PHPMailer\PHPMailer\Exception;
+
+									require 'phpmailer/src/Exception.php';
+									require 'phpmailer/src/PHPMailer.php';
+									require 'phpmailer/src/SMTP.php';
+
+
                                     if(isset($_POST["apply"])){
 
-                                    	 
+
                                     	 $months = $_POST['months'];
 
                                     	 //$_SESSION['months'] = $months;
@@ -599,10 +645,49 @@
 
                                     	 $total = str_replace(',', '', $totalpay);
 
-                       
+                                    	$is_group_loan = isset($_POST['is_group_loan']) && $_POST['is_group_loan'] == '1';
+
+                                    	 
+                                    	if ($is_group_loan) {
+
+										    $coborrower1_name = $_POST['co_borrower2_name'];
+										    $coborrower1_email = $_POST['co_borrower2_email'];
+										    $coborrower2_name = $_POST['co_borrower3_name'];
+										    $coborrower2_email = $_POST['co_borrower3_email'];
+
+										$mail = new PHPMailer(true);
 
 
-                                    	 $retrieve_query = mysqli_query($conn, "SELECT DISTINCT * FROM borrower WHERE firstname = '$fname' AND lastname = '$lname' LIMIT 1");
+										$mail->isSMTP();
+										$mail->Host = 'smtp.gmail.com';
+										$mail->SMTPAuth = true;
+										$mail->Username = 'cashmdl2025@gmail.com';
+										$mail->Password = 'sywo jzyf obri srbx';
+										$mail->SMTPSecure = 'ssl';
+										$mail->Port = '465';
+
+
+										$mail->setFrom('cashmdl2025@gmail.com');
+										$mail->addAddress($coborrower1_email); //receiver address
+										$mail->addAddress($coborrower2_email); //receiver address
+
+										$mail->isHTML(true);
+
+										$mail->Subject = 'CMDL - GROUP LOAN APPLICATION NOTICE';
+
+										$mail->Body = 'This is to inform you that <strong>'.$fname .' '. $lname .'</strong> has applied for a group loan application with reference <strong>'. $ref_no .'</strong> amounting <strong>₱ '.$loanamount .'</strong>.<br><br>
+											List of co-borrowers:<br>
+											1. <strong>'.$coborrower1_name.'</strong><br>
+											2. <strong>'.$coborrower2_name.'</strong><br>
+											<br>
+											Please contact the major loan user if you think this is without your consent. Otherwise, please wait the proces of approval for this application. Thank you.<br>';
+
+										$mail->send();
+
+
+
+										    // Optional: Validate or sanitize these values
+										    $retrieve_query = mysqli_query($conn, "SELECT DISTINCT * FROM borrower WHERE firstname = '$fname' AND lastname = '$lname' LIMIT 1");
                         $check_rows = mysqli_num_rows($retrieve_query);
                         if($check_rows > 0){
                         		//TO CHECK IF THERE IS AN EXISTING APPLICATION SHOULD ONLY HAVE 1 LOAN APPLICATION
@@ -614,12 +699,12 @@
 
                         					$db_contact = $row['contact_no'];
                         					$db_address = $row['address'];
-                        					
+                        					}
 
                         					//insert into loan application table
 
-                        					$query = "INSERT INTO loan_application (name, contact, address,refno,loantype,loanplan,amount,totalpayable,monthlypayable,overduepayable,status,months,purpose) VALUES ('$name1', '$db_contact', '$db_address','$ref_no','$loantype','$loanplan',$loanamount,
-                        						$totalpay,$monthly,$penalty,'FOR APPROVAL',$months,'$purpose')";
+                        					$query = "INSERT INTO loan_application (name, contact, address,refno,loantype,loanplan,amount,totalpayable,monthlypayable,overduepayable,status,months,purpose,coborrower1, coborrower1_email,coborrower2, coborrower2_email) VALUES ('$name1', '$db_contact', '$db_address','$ref_no','$loantype','$loanplan',$loanamount,
+                        						$totalpay,$monthly,$penalty,'FOR APPROVAL',$months,'$purpose','$coborrower1_name','$coborrower1_email','$coborrower2_name','$coborrower2_email')";
 
                         					$query_exec = mysqli_query($conn,$query);
 
@@ -630,10 +715,12 @@
 
        }else{
        		echo "<script language='javascript'>alert('ERROR PRE.')</script>";
-       }
+       			}
+       		
+       	
 
 
-                        				}
+                        				
                         			}else{
                         				echo "<script language='javascript'>alert('You cannot apply for another loan application because you have a pending application/unfinished loan. Or you have been rejected for a loan application and you may apply after 3 months.')</script>";
             echo "<script>window.location.href='loan_user.php';</script>";
@@ -647,7 +734,69 @@
                                     	echo "<script language='javascript'>alert('WALANG BORROWER.')</script>";
                                     }
 
-                          }
+
+										} else {
+
+										    $coborrower1_name = $coborrower1_email = $coborrower2_name = $coborrower2_email = null;
+
+										    $retrieve_query = mysqli_query($conn, "SELECT DISTINCT * FROM borrower WHERE firstname = '$fname' AND lastname = '$lname' LIMIT 1");
+                        $check_rows = mysqli_num_rows($retrieve_query);
+                        if($check_rows > 0){
+                        		//TO CHECK IF THERE IS AN EXISTING APPLICATION SHOULD ONLY HAVE 1 LOAN APPLICATION
+                        			$retrieve_query1 = mysqli_query($conn, "SELECT * FROM loan_application WHERE name = '$name1' AND status != 'REJECTED'");
+                        $check_rows = mysqli_num_rows($retrieve_query1);
+                        if($check_rows == 0){
+
+                        				while($row =mysqli_fetch_assoc($retrieve_query)){
+
+                        					$db_contact = $row['contact_no'];
+                        					$db_address = $row['address'];
+                        					}
+
+                        					//insert into loan application table
+
+                        					$query = "INSERT INTO loan_application (name, contact, address,refno,loantype,loanplan,amount,totalpayable,monthlypayable,overduepayable,status,months,purpose,coborrower1, coborrower1_email,coborrower2, coborrower2_email) VALUES ('$name1', '$db_contact', '$db_address','$ref_no','$loantype','$loanplan',$loanamount,
+                        						$totalpay,$monthly,$penalty,'FOR APPROVAL',$months,'$purpose','$coborrower1_name','$coborrower1_email','$coborrower2_name','$coborrower2_email')";
+
+                        					$query_exec = mysqli_query($conn,$query);
+
+
+       if($query_exec){
+       		echo "<script language='javascript'>alert('Loan Application successful. Loan Application subject for approval.')</script>";
+            echo "<script>window.location.href='loan_user.php';</script>";
+
+       }else{
+       		echo "<script language='javascript'>alert('ERROR PRE.')</script>";
+       			}
+       		
+       	
+
+
+                        				
+                        			}else{
+                        				echo "<script language='javascript'>alert('You cannot apply for another loan application because you have a pending application/unfinished loan. Or you have been rejected for a loan application and you may apply after 3 months.')</script>";
+            echo "<script>window.location.href='loan_user.php';</script>";
+                        			}
+
+
+
+
+
+                                    }else{
+                                    	echo "<script language='javascript'>alert('WALANG BORROWER.')</script>";
+                                    }
+
+
+										}
+
+									}
+
+
+
+
+
+
+
 
                           		if(isset($_POST["cancelapp"])){
 
@@ -797,6 +946,25 @@
 			$('#dataTable').DataTable();
 		});
 	</script>
+
+	<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const checkbox = document.getElementById("groupLoanCheckbox");
+		const coBorrowersSection = document.getElementById("coBorrowersSection");
+		const isGroupLoan = document.getElementById("isGroupLoan");
+
+		checkbox.addEventListener("change", function () {
+			if (this.checked) {
+				coBorrowersSection.style.display = "block";
+				isGroupLoan.value = "1";
+			} else {
+				coBorrowersSection.style.display = "none";
+				isGroupLoan.value = "0";
+			}
+		});
+	});
+</script>
+
 
 </body>
 

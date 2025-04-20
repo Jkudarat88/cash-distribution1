@@ -178,6 +178,10 @@
                         					$status = $row['status'];
                         					$purpose = $row['purpose'];
                         					$months = $row['months'];
+                        					$bor1 = $row['coborrower1'];
+                        					$bor1email = $row['coborrower1_email'];
+                        					$bor2 = $row['coborrower2'];
+                        					$bor2email = $row['coborrower2_email'];
 
                         					echo "<tr>
 
@@ -243,9 +247,45 @@
 												<div class='form-group col-xl-6 col-md-6'>
 													<label>Purpose</label>
 													<textarea name='purpose' class='form-control' style='resize:none; height:100px; width:765px;' readonly>$purpose</textarea>
-												</div>
-											
+												</div>";
+
+												 if (!empty($bor1) || !empty($bor1email) || !empty($bor2) || !empty($bor2email)): 
+											echo "<hr>
+											<div class='form-row'>";
+												if (!empty($bor1)):
+													echo "<div class='form-group col-md-6'>
+														<label>Co-Borrower 1 Name</label>
+														<input type='text' class='form-control' value='$bor1' readonly>
+													</div>";
+												 endif;
+												 if (!empty($bor1email)):
+													echo "<div class='form-group col-md-6'>
+														<label>Co-Borrower 1 Email</label>
+														<input type='email' class='form-control' value='$bor1email' readonly>
+													</div>";
+												endif;
+											echo "	
 											</div>
+											<div class='form-row'>";
+												if (!empty($bor2)):
+													echo "<div class='form-group col-md-6'>
+														<label>Co-Borrower 2 Name</label>
+														<input type='text' class='form-control' value='$bor2' readonly>
+													</div>";
+												endif;
+												 if (!empty($bor2email)):
+													echo "<div class='form-group col-md-6'>
+														<label>Co-Borrower 2 Email</label>
+														<input type='email' class='form-control' value='$bor2email' readonly>
+													</div>";
+												 endif;
+											echo "
+											</div>";
+
+										 	endif;
+
+											
+											echo "</div>
 											<div style='text-align:center;'>
 											<p >~LOAN BREAKDOWN~</p>
 											</div>
@@ -326,6 +366,10 @@
 												
 											<input type='hidden' name='months' value='$months'>
 
+											<input type='hidden' name='bor1' value='$bor1'>
+											<input type='hidden' name='bor1email' value='$bor1email'>
+											<input type='hidden' name='bor2' value='$bor2'>
+											<input type='hidden' name='bor2email' value='$bor2email'>
 											</div>
 											<div class='form-row'>
 											
@@ -364,6 +408,13 @@
 											<div class='form-row'>
 												<input type='hidden' name='refno1' value='$refno' >
 												<input type='hidden' name='name1' value='$name' >
+
+
+											<input type='hidden' name='bor1' value='$bor1'>
+											<input type='hidden' name='bor1email' value='$bor1email'>
+											<input type='hidden' name='bor2' value='$bor2'>
+											<input type='hidden' name='bor2email' value='$bor2email'>
+
 
 												<div class='form-group col-xl-6 col-md-6'>
 													
@@ -869,6 +920,10 @@
                                     	$email = $_POST['email'];
                                     	$months = $_POST['months'];
 
+                                    	$bor1 = $_POST['bor1'];
+                                    	$bor1email = $_POST['bor1email'];
+                                    	$bor2 = $_POST['bor2'];
+                                    	$bor2email = $_POST['bor2email'];
 
                                     	if($months == 12){
                                     		$datemod = date('F d, Y', strtotime($datetime. ' + 30 days'));
@@ -966,6 +1021,7 @@
 
 
 
+
                                     	$mail = new PHPMailer(true);
 
 
@@ -979,11 +1035,24 @@
 
 
 										$mail->setFrom('cashmdl2025@gmail.com');
+										
+										if($bor1email == null && $bor2email == null){
+										
 										$mail->addAddress($email); //receiver address
+										
+										}else{
 
+										$mail->addAddress($email);
+										$mail->addAddress($bor1email);
+										$mail->addAddress($bor2email);
+
+										}
+										
 										$mail->isHTML(true);
 
-										$mail->Subject = 'CMDL - LOAN APPLICATION APPROVAL';
+										$mail->Subject = 'CMDL - LOAN APPLICATION APPROVAL AND LOAN POLICY';
+
+										$mail->addAttachment('CASH_LOAN_AGREEMENT_POLICY.pdf');
 
 
 										if($months == 12){
@@ -1003,6 +1072,10 @@
 											   $paymentsched[9] . '<br>' .
 											   $paymentsched[10] . '<br>' .
 											   $paymentsched[11] . '<br>
+											   <br>
+											   And herewith attached is the Cash Loan Agreement Policy document for your reference and responsibility as a borrower.  (Email will be sent too in your co-borrowers email if this is a group loan)
+											   <br>
+											   <br>
 											   Approved loan will be disbursed within the day, Thank you and have a good day!';
 
 										}else if($months == 6){
@@ -1015,6 +1088,10 @@
 											   $paymentsched[3] . '<br>' .
 											   $paymentsched[4] . '<br>' .
 											   $paymentsched[5] . '<br>
+											   <br>
+											   And herewith attached is the Cash Loan Agreement Policy document for your reference and responsibility as a borrower.  (Email will be sent too in your co-borrowers email if this is a group loan)
+											   <br>
+											   <br>
 											   Approved loan will be disbursed within the day, Thank you and have a good day!';
 
 										}else if($months == 3){
@@ -1024,6 +1101,10 @@
 											'. $paymentsched[0] . '<br>' .
 											   $paymentsched[1] . '<br>' .
 											   $paymentsched[2] . '<br>
+											   <br>
+											   And herewith attached is the Cash Loan Agreement Policy document for your reference and responsibility as a borrower. (Email will be sent too in your co-borrowers email if this is a group loan)
+											   <br>
+											   <br>
 											   Approved loan will be disbursed within the day, Thank you and have a good day!';
 										}
 

@@ -3,15 +3,20 @@ require_once'session.php';
   require_once'class.php';
   $db=new db_class();         
 
+                                        use  PHPMailer\PHPMailer\PHPMailer;
+                                        use PHPMailer\PHPMailer\Exception;
 
+                                        require 'phpmailer/src/Exception.php';
+                                        require 'phpmailer/src/PHPMailer.php';
+                                        require 'phpmailer/src/SMTP.php';
 
 $name = $db->user_acc($_SESSION['user_id']);
 $amount = $_POST['amount1'];
 
-
+                                   
 
 // Replace with your PayMongo Secret Key
-$secretKey = "sk_test_n5tFDTsY4TKwDVvJDxcUmyfD";
+$secretKey = "sk_test_9hi365KRna9AYcw6LhEKKXvg";
 
 // Collect form data
 $amount_init = $amount;
@@ -78,7 +83,7 @@ if (isset($response['data']['attributes']['checkout_url'])) {
          $date = date('Y-m-d');
          $date1 = date('dmYhiA');
          $user_pass = $_SESSION['pass'];
-         $onlineID = "OL-" . $date1;
+         //$onlineID = "OL-" . $date1;
          $vehicle_inf = $_POST['vehicleinf'];
          $dateinput = $_POST['setDate1'];
          $dateform = date('Y-m-d', strtotime($dateinput));
@@ -86,6 +91,50 @@ if (isset($response['data']['attributes']['checkout_url'])) {
          $plateno = $_SESSION["plateno"];
          $linkref = $response['data']['attributes']['checkout_url'];
          $refcode = substr($linkref, -7);
+
+         $fullname = explode(" ", $name);
+
+                                                $retrieve_query1 = mysqli_query($connections, "SELECT * FROM borrower
+                                                    WHERE firstname = '$fullname[0]' AND lastname = '$fullname[1]' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query1)) {
+                                                    $email = $row['email'];
+                                                
+                                                }
+
+                                                   $retrieve_query2 = mysqli_query($connections, "SELECT * FROM loan_application
+                                                    WHERE name = '$name' AND refno = '$refno' ");
+                                                while($row = mysqli_fetch_assoc($retrieve_query2)) {
+                                                    $email1 = $row['coborrower1_email'];
+
+                                                    $email2 = $row['coborrower2_email'];
+                                                }
+
+
+                                        $mail = new PHPMailer(true);
+
+
+                                        $mail->isSMTP();
+                                        $mail->Host = 'smtp.gmail.com';
+                                        $mail->SMTPAuth = true;
+                                        $mail->Username = 'cashmdl2025@gmail.com';
+                                        $mail->Password = 'sywo jzyf obri srbx';
+                                        $mail->SMTPSecure = 'ssl';
+                                        $mail->Port = '465';
+
+
+                                        if($email1 == null && $email2 == null){
+                                        $mail->addAddress($email); //receiver address
+                                        }else{
+                                        $mail->addAddress($email);
+                                        $mail->addAddress($email1);
+                                        $mail->addAddress($email2);
+                                        }
+                                        
+
+                                        $mail->isHTML(true);
+
+                                        $mail->Subject = 'CMDL - LOAN PAYMENT NOTICE AND RECEIPT';
+
        
          $query = "INSERT INTO user_payment (name, refno, amountpaid,duedate,
          datepaid,linkreference,refcode,status) 
@@ -118,63 +167,132 @@ if (isset($response['data']['attributes']['checkout_url'])) {
 
        $query = "UPDATE monthly_payment_tbl SET payment1_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your first payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p2){
 
        $query = "UPDATE monthly_payment_tbl SET payment2_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your second payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
+
         
         }else if($dateinput == $p3){
 
        $query = "UPDATE monthly_payment_tbl SET payment3_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your third payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p4){
 
        $query = "UPDATE monthly_payment_tbl SET payment4_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your fourth payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p5){
 
        $query = "UPDATE monthly_payment_tbl SET payment5_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your fifth payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p6){
 
        $query = "UPDATE monthly_payment_tbl SET payment6_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your sixth payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p7){
 
        $query = "UPDATE monthly_payment_tbl SET payment7_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your seventh payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p8){
 
        $query = "UPDATE monthly_payment_tbl SET payment8_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your eighth payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p9){
 
        $query = "UPDATE monthly_payment_tbl SET payment9_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your ninth payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p10){
 
        $query = "UPDATE monthly_payment_tbl SET payment10_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your tenth payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p11){
 
        $query = "UPDATE monthly_payment_tbl SET payment11_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
+
+       $mail->Body = 'This to acknowledge your eleventh payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
         
         }else if($dateinput == $p12){
 
        $query = "UPDATE monthly_payment_tbl SET payment12_status='PAID' WHERE name='$name' AND refno = '$refno' ";
        $query_exec = mysqli_query($conn,$query);
         
+       $mail->Body = 'This to acknowledge your last payment and receipt due on <strong>'.$dateinput.'</strong> for your loan with reference <strong>'. $refno .'</strong> amounting <strong>₱ '.$amount .'</strong> has been received. Please pay ontime on or before your due date to avoid penalty. Thank you.<br><br>
+                                        (If this loan is a group loan, all co-borrowers also received the notification for their respective rights)';
+
+        $mail->send();
+
         }
+
+                                        
+
+                                        
+                                            
+
+
+
 
 }
 

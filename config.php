@@ -1,9 +1,8 @@
 <?php
 	define("db_host", "localhost");
-	define("db_user", "logi_joharyDB");
-	define("db_pass", "joharyDB");
-	define("db_name", "logi_joharyDB");
-	
+	define("db_user", "root");
+	define("db_pass", "");
+	define("db_name", "cmdl");
 	
 	
 	class db_connect{

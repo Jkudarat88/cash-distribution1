@@ -1,5 +1,5 @@
 <?php
-date_default_timezone_set("Asia/Taipei");
+date_default_timezone_set("Asia/Manila");
 require_once 'session.php';
 require_once 'class.php';
 $db = new db_class(); 
@@ -91,7 +91,7 @@ $db = new db_class();
                                                 Active Loans</div>
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
                                                 <?php 
-                                                    $tbl_loan = $db->conn->query("SELECT * FROM `loan` WHERE `status`='2'");
+                                                    $tbl_loan = $db->conn->query("SELECT * FROM `loan_application` WHERE `status`='DISBURSED'");
                                                     echo $tbl_loan->num_rows > 0 ? $tbl_loan->num_rows : "0";
                                                 ?>
                                             </div>
@@ -118,7 +118,7 @@ $db = new db_class();
                                                 Payments Today</div>
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
                                                 <?php 
-                                                    $tbl_payment = $db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='".date("Y-m-d")."'");
+                                                    $tbl_payment = $db->conn->query("SELECT sum(amountpaid) as total FROM user_payment");
                                                     echo $tbl_payment->num_rows > 0 ? "&#8369; ".number_format($tbl_payment->fetch_array()['total'], 2) : "&#8369; 0.00";
                                                 ?>
                                             </div>

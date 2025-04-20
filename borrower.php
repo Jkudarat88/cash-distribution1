@@ -176,7 +176,7 @@
 													</button>
 													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 														<a class="dropdown-item bg-warning text-white" href="#" data-toggle="modal" data-target="#updateborrower<?php echo $fetch['borrower_id']?>">Edit</a>
-														<a class="dropdown-item bg-danger text-white" href="#" data-toggle="modal" data-target="#deleteborrower<?php echo $fetch['borrower_id']?>">Delete</a>
+														
 													</div>
 												</div>
 											</td>
