@@ -16,8 +16,8 @@ $amount = $_POST['amount1'];
                                    
 
 // Replace with your PayMongo Secret Key
-$secretKey = "";
-// sk_test_9hi365KRna9AYcw6LhEKKXvg
+
+
 
 // Collect form data
 $amount_init = $amount;
